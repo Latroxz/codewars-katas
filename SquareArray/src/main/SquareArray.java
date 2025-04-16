@@ -14,11 +14,18 @@ public class SquareArray {
         return Arrays.equals(a, b);
     }
 
+    public static boolean compStreams(int[] a, int[] b) {
+        return !Objects.isNull(a) && !Objects.isNull(b)
+                && (a.length == b.length)
+                && Arrays.equals(
+                Arrays.stream(a).map(element -> element * element).sorted().peek(x -> System.out.println("a squared: "
+                        + x)).toArray(),
+                Arrays.stream(b).sorted().peek(x -> System.out.println("b sorted: " + x)).toArray()
+        );
+    }
+
     private static int[] getArrayAbsoluteAndSorted(int[] a) {
-        return Arrays.stream(a)
-                .map(Math::abs)
-                .sorted()
-                .toArray();
+        return Arrays.stream(a).map(Math::abs).sorted().toArray();
     }
 
     private static int[] getElementsSqrt(int[] b) {
