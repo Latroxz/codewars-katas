@@ -1,45 +1,48 @@
 package main;
 
+import java.util.Arrays;
+
 public class IntruderNumber {
     public static int find(int[] numbers) {
-        Integer firstPositions = intruderInFirstPositions(numbers);
-        if (firstPositions != null) return firstPositions;
-        return intruderInRemainingPositions(numbers);
+        return getIntruder(numbers);
     }
 
-    private static int intruderInRemainingPositions(int[] numbers) {
-        int evenCount = 0;
-        int oddCount = 0;
+    /*
+     * This method is based on the premise that there will be 1 AND only 1 even or odd
+     * so it stores that value in the odd or even and at the end it compares if odd length is 1
+     * then it found that the intruder is odd, if not, returns the intruder that is even stored in the even array
+     */
+    public static int findElegant(int[] integers) {
+        int[] odd = Arrays.stream(integers).filter(n -> n % 2 != 0).toArray();
+        int[] even = Arrays.stream(integers).filter(n -> n % 2 == 0).toArray();
+        return odd.length == 1 ? odd[0] : even[0];
+    }
+
+    private static int getIntruder(int[] numbers) {
+        boolean isMajorityEven = getIfIsMajorityEven(numbers);
         for (int number : numbers) {
-            if (number % 2 == 0) {
-                evenCount++;
-            } else {
-                oddCount++;
-            }
-            if (evenCount > 1) {
-                if (number % 2 != 0) return number;
-            } else if (oddCount > 1) {
-                if (number % 2 == 0) return number;
+            if ((number % 2 == 0) != isMajorityEven) {
+                return number;
             }
         }
         return 0;
     }
 
-    private static Integer intruderInFirstPositions(int[] numbers) {
-        if (numbers.length > 2) {
-            if ((numbers[0] % 2 == numbers[2] % 2) && numbers[1] % 2 != numbers[0] % 2) {
-                return numbers[1];
-            }
-            if ((numbers[1] % 2 == numbers[2] % 2) && numbers[0] % 2 != numbers[1] % 2) {
-                return numbers[0];
+    private static boolean getIfIsMajorityEven(int[] numbers) {
+        int evenCount = 0;
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] % 2 == 0) {
+                evenCount++;
             }
         }
-        return null;
+        boolean isMajorityEven = evenCount > numbers.length / 2;
+        return isMajorityEven;
     }
 
     public static void main(String[] args) {
         int[] numbers = new int[]{206847684, 1056521, 7, 17, 1901, 21104421, 7, 1, 35521, 1, 7781};
-        System.out.println(find(numbers));
+        int[] numbers2 = {-78, 1, 3, 5};
+        System.out.println(find(numbers2));
     }
 
 }
