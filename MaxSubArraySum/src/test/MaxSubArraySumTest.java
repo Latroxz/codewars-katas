@@ -19,4 +19,10 @@ public class MaxSubArraySumTest {
         assertEquals(6, MaxSubArraySum.sequence(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}));
     }
 
+    @Test
+    @DisplayName("Should return 0 when array result is negative")
+    public void shouldReturnZeroWhenSubArraySumIsNegative() throws Exception {
+        assertEquals(0, MaxSubArraySum.sequence(new int[]{-4, -7, -1, -8, -5}));
+    }
+
 }
